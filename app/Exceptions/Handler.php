@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
 use App\Http\Controllers\Api\BaseController;
 class Handler extends ExceptionHandler
@@ -51,8 +54,14 @@ class Handler extends ExceptionHandler
     }
     public function render($request, Throwable $e)
     {
+
         if ($e instanceof ModelNotFoundException) {
             return BaseController::error( "record not found" , 404);
         }
+
+        if ($e instanceof AuthenticationException){
+            return  BaseController::error("UnAuthorized" , 401);
+        }
+
     }
 }

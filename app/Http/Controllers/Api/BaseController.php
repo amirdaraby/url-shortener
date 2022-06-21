@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Hashids\Hashids;
 use App\Models\Url;
 use Illuminate\Http\Request;
 
@@ -20,15 +19,10 @@ class BaseController extends Controller
         return response()->json(["status" => "error", "message" => $message], $code);
     }
 
-    /*
-     *
-     * Find Or New Domain
-     * returns Domain ID
-     *
-     */
 
     public function FindOrNewUrl($url)
     {
+
         $LongUrl = Url::where("url", $url)->first();
 
         if (!isset($LongUrl)) {
@@ -38,13 +32,6 @@ class BaseController extends Controller
             return $LongUrl->id;
         } else return $LongUrl->id;
 
-    }
-
-    public function short($url) {
-
-        $hashid = new Hashids();
-        $response =  $hashid->encodeHex($url);
-        return $response;
     }
 
 }
